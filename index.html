@@ -1,0 +1,188 @@
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px auto;
+            background-image: url(bg.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            color: rgb(255, 255, 255);
+            text-decoration:double;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        input,
+        select {
+            margin-bottom: 10px;
+            display: block;
+            height: 40px;
+            width: calc(100% - 16px);
+            border-radius: 8px;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ffffff;
+        }
+
+        button {
+            height: 40px;
+            width: 100%;
+            border-radius: 8px;
+            padding: 8px;
+            box-sizing: border-box;
+            border: none;
+            background-color: rgb(27, 28, 71);
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        button:hover{
+            background-color:rgba(97, 98, 155, 1);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .sortir {
+            border: 1px solid black;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        main{
+            background-image: url(8.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            border: none;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+            background-color: rgba(97, 98, 155, 1);
+            background-blend-mode: soft-light;
+        }
+    
+        
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1 id="judul">Movie</h1>
+
+        <form id="movieForm">
+            <label for="movieTitle">Judul Film:</label>
+            <input type="text" id="movieTitle" required>
+
+            <label for="movieSutradara">Sutradara:</label>
+            <input type="text" id="movieSutradara" required>
+
+            <label for="movieYear">Tahun Rilis:</label>
+            <input type="date" id="movieYear" required>
+
+            <label for="movieGenre">Genre:</label>
+            <select id="movieGenre" class="movieGenre" required>
+                <option value="">Pilih Genre</option>
+                <option value="action">Action</option>
+                <option value="comedy">Comedy</option>
+                <option value="drama">Drama</option>
+                <option value="romance">Romance</option>
+                <option value="horor">Horor</option>
+                <option value="thriller">Thriller</option>
+                <option value="adventure">Adventure</option>
+                <option value="animation">Animation</option>
+                <option value="dokumenterr">Dokumenter</option>
+                <option value="fantasy">Fantasy</option>
+            </select>
+
+            <div class="action-buttons">
+                <button type="button" onclick="addMovie()">Simpan</button>
+                <button type="button" onclick="cancelForm()">Batal</button>
+                <a href="Movie List-List.html"><button type="button">Lihat List</button></a>
+            </div>
+        </form>
+    </main>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        //local storage
+        let movies = JSON.parse(localStorage.getItem('movies')) || [];
+ 
+        //tambahkan film
+        function addMovie() {
+            
+            const title = document.getElementById("movieTitle").value;
+            const sutradara = document.getElementById("movieSutradara").value;
+            const tahun = document.getElementById("movieYear").value;
+            const genre = document.getElementById("movieGenre").value;
+
+            
+            if (title && sutradara && tahun && genre) {
+                const movie = { title, sutradara, tahun, genre };
+                movies.push(movie);
+                saveToLocalStorage();
+                resetForm();
+
+                Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title: "Your work has been saved",
+  showConfirmButton: false,
+  timer: 1500
+});
+
+                document.getElementById("judul").innerHTML = "Input Movie";
+
+                
+            } else {
+                alert("Harap isi semua kolom");
+            }
+        }
+
+        //simpan film ke local storage
+        function saveToLocalStorage() {
+            localStorage.setItem('movies', JSON.stringify(movies));
+        }
+
+        //kosongkan form
+        function resetForm() {
+            document.getElementById("movieForm").reset();
+        }
+
+        //batalkan pengisian form
+        function cancelForm() {
+            Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "Something went wrong!",
+});
+            resetForm();
+        }
+    </script>
+</body>
+
+</html>
+
+
